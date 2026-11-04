@@ -1,0 +1,5 @@
+Options -Indexes
+AddDefaultCharset UTF-8
+<FilesMatch "^database\.php$">
+  Require all denied
+</FilesMatch>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Library Management System">
+  <title>Libmen — Library Management</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=2">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#dashboard"><span>LM</span><strong>Libmen</strong></a>
+    <nav>
+      <a class="nav-link active" href="#dashboard" data-view="dashboard">⌂ <span>Dashboard</span></a>
+      <a class="nav-link" href="#books" data-view="books">▤ <span>Books</span></a>
+      <a class="nav-link" href="#members" data-view="members">♙ <span>Members</span></a>
+      <a class="nav-link" href="#loans" data-view="loans">⇄ <span>Issue / Return</span></a>
+      <a class="nav-link" href="#reports" data-view="reports">◔ <span>Reports</span></a>
+    </nav>
+    <p class="side-note">HTML + JavaScript frontend<br>PHP only serves the database API.</p>
+  </aside>
+  <main>
+    <header class="topbar"><button id="menuBtn" class="icon-btn" aria-label="Open navigation">☰</button><div><strong>Library Management</strong><small>Simple, fast, and connected</small></div><span id="apiStatus" class="status">Connecting…</span></header>
+    <div id="notice" class="notice" role="status"></div>
+
+    <section class="view" id="dashboard">
+      <div class="heading"><div><p class="eyebrow">OVERVIEW</p><h1>Good to see you.</h1><p>Keep the library moving without losing track of a single book.</p></div><button class="primary" data-goto="books" data-open="book">+ Add book</button></div>
+      <div id="statCards" class="stats"></div>
+      <div class="grid two"><article class="card"><div class="card-head"><h2>Recent activity</h2><button class="text-btn" data-goto="loans">All loans</button></div><div id="recentLoans" class="feed"></div></article><article class="card accent"><p class="eyebrow">QUICK START</p><h2>Build your collection</h2><p>Add books and members, then issue books from one focused screen.</p><div class="quick-actions"><button data-goto="books" data-open="book">Add a book</button><button data-goto="members" data-open="member">Register member</button><button data-goto="loans">Issue a book</button></div></article></div>
+    </section>
+
+    <section class="view hidden" id="books">
+      <div class="heading"><div><p class="eyebrow">COLLECTION</p><h1>Books</h1><p>Add, update, search, or remove titles.</p></div><button class="primary" data-open="book">+ Add book</button></div>
+      <div class="toolbar"><input id="bookSearch" type="search" placeholder="Search title, author, ISBN or category"><select id="bookCategory"><option value="">All categories</option></select></div>
+      <article class="card table-card"><div id="booksTable"></div></article>
+    </section>
+
+    <section class="view hidden" id="members">
+      <div class="heading"><div><p class="eyebrow">COMMUNITY</p><h1>Members</h1><p>Manage borrowing privileges and membership status.</p></div><button class="primary" data-open="member">+ Register member</button></div>
+      <div class="toolbar"><input id="memberSearch" type="search" placeholder="Search name, code, email or phone"><select id="memberStatus"><option value="">All statuses</option><option>Active</option><option>Suspended</option></select></div>
+      <article class="card table-card"><div id="membersTable"></div></article>
+    </section>
+
+    <section class="view hidden" id="loans">
+      <div class="heading"><div><p class="eyebrow">CIRCULATION</p><h1>Issue & return</h1><p>Every transaction is saved directly to your database.</p></div></div>
+      <div class="grid two"><article class="card"><h2>Issue a book</h2><form id="issueForm" class="form"><label>Book<select name="book_id" id="issueBook" required></select></label><label>Member<select name="member_id" id="issueMember" required></select></label><label>Due date<input name="due_date" id="dueDate" type="date" required></label><button class="primary" type="submit">Issue book</button></form></article><article class="card accent"><h2>Rules applied automatically</h2><p>Only active members may borrow. Available copies and each member’s maximum book limit are checked before an issue is saved.</p><p>A fine of ₹10/day is calculated when an overdue book is returned.</p></article></div>
+      <article class="card table-card spaced"><div class="card-head"><div><h2>Loans</h2><p>Open loans can be returned from here.</p></div><select id="loanFilter"><option value="issued">Open loans</option><option value="all">All loans</option><option value="returned">Returned</option></select></div><div id="loansTable"></div></article>
+    </section>
+
+    <section class="view hidden" id="reports">
+      <div class="heading"><div><p class="eyebrow">ANALYTICS</p><h1>Reports</h1><p>Live totals and the follow-ups that need attention.</p></div><select id="reportRange"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></div>
+      <div id="reportStats" class="stats"></div><div class="grid two"><article class="card"><div class="card-head"><h2>Popular categories</h2><span class="muted">Issues in selected period</span></div><div id="categoryBars" class="bars"></div></article><article class="card"><div class="card-head"><h2>Overdue follow-ups</h2><span class="muted">Open loans past due</span></div><div id="overdueList" class="feed"></div></article></div>
+    </section>
+  </main>
+
+  <dialog id="modal"><form id="modalForm"><div class="modal-head"><h2 id="modalTitle">Add book</h2><button type="button" class="icon-btn" data-close-modal aria-label="Close">×</button></div><div id="modalFields" class="form"></div><div class="modal-actions"><button type="button" data-close-modal class="secondary">Cancel</button><button id="saveModal" type="submit" class="primary">Save</button></div></form></dialog>
+  <template id="empty"><div class="empty">Nothing to show yet.</div></template>
+  <script src="assets/js/app.js?v=4"></script>
+</body>
+</html>
